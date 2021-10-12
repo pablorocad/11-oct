@@ -1,20 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-server-deploy
-  namespace: project
+  name: my-app-deployment
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: node-server
+      app: my-app
+  replicas: 1
   template:
     metadata:
       labels:
-        app: node-server
+        app: my-app
+        env: development
     spec:
       containers:
-        - name: node-server-container
-          image: gcr.io/pablorocad/node-server
-          ports:
-            - containerPort: 3000
+      - name: my-app
+        image: gcr.io/valid-tuner-323400/app:v1
+        ports:
+        - containerPort: 3000
+        env:
+        - name: PORT
+          value: "3000"
+        - name: LOG_LEVEL
+          value: "info"
+        - name: NODE_ENV
+          value: "development"
